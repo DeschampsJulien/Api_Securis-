@@ -11,6 +11,12 @@ const storage = multer.diskStorage({
         callback(null, 'uploads');
     },
     filename: (req, file, callback) => {
+
+        // const name = file.originalname.split(' ').join('_');
+        // console.log(name)
+        // const extension = MINE_TYPES[file.mimitype];
+        // callback(null, Date.now() + name);
+
         // Récupérer l'extension du fichier à partir du MIME_TYPE
         const extension = MIME_TYPES[file.mimetype];
 
@@ -24,10 +30,11 @@ const storage = multer.diskStorage({
         // Générer le nom de fichier avec l'extension
         const name = file.originalname.toLowerCase().split(' ').join('_');
         let formattedDate;
+
         // Opérateur ternaire utilisé pour initialiser formattedDate
         month < 10 ? formattedDate = `${day}-0${month}-${year}` : formattedDate = `${day}-${month}-${year}`
         callback(null, formattedDate + '_' + name);
     }
 });
 
-module.exports = { storage };
+module.exports = multer({storage: storage}); 
